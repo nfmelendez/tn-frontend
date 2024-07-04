@@ -1,36 +1,46 @@
 import React, { useState } from "react";
 import Typography from '@mui/material/Typography';
 import MuiLink from '@mui/material/Link';
-import axios from 'axios';
+import { operation } from "../../services/calculatorService";
 
-export default function Operation({ opName, opSymbol, opActionName }) {
+import TextField from '@mui/material/TextField';
+
+
+import { Box, styled } from '@mui/system';
+
+
+export default function Operation({ opName, opSymbol, opActionName, onResult, parentState}) {
 
     const defaultState = {
-        left: "",
-        right: ""
+        left: parentState.result,
+        right: 0
     }
 
     const [state, setState] = useState(defaultState);
 
 
 
-    async function handleSubmit() {
-               /* try {
-            const response = await axios.post('https://api.example.com/operation', {
-            operation: opActionName,
-            left: state.left,
-            right: state.right,
-            });
-           // setResult(response.data.result);
-        } catch (err) {
-            //setError('An error occurred');
-            console.error(err);
-        }*/
-       
+    async function handleSubmit(e) {
+        e.preventDefault();
 
+        const result = await operation(opSymbol, parentState.result, state.right);
+
+        onResult(result);
+    
     }
 
-    function handleUpdate(){}
+    function handleUpdate(e){
+        debugger;
+        e.preventDefault();
+        const value = e.target.value;
+        //accept only numbers
+        setState(prev => (
+            {...prev,
+            right: value
+            }
+        ))
+
+    }
 
   return (
     <form
@@ -41,16 +51,13 @@ export default function Operation({ opName, opSymbol, opActionName }) {
   >
     <label>
       {opName}
-      <input type="text" name="left" value={state.left} onChange={handleUpdate} />
+      <TextField id="outlined-basic" label="Outlined" variant="outlined"  name="left" value={parentState.result}   />
+
     </label>
     <label>
       {opSymbol}
-      <input
-        type="text"
-        name="right"
-        value={state.right}
-        onChange={handleUpdate}
-      />
+      <TextField id="outlined-basic" label="Outlined" variant="outlined"  name="right" value={state.right}  onChange={handleUpdate} />
+
     </label>
     <input type="submit" value={opActionName} />
   </form>

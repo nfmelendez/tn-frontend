@@ -11,6 +11,6 @@ export async function  operation(operation, left, right) {
             //setError('An error occurred');
             console.error(err);
         }*/
-       
-    return "2";
+       debugger;
+    return { result: parseInt(left) + parseInt(right), credit: 1};
 }

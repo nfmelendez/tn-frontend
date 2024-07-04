@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -18,21 +18,34 @@ function handleSignOut() {
 }
 
 export default function Calculator() {
+
+  const [state, setState] = useState({result : 0, credit: 0});
+
+  function onResult(r) {
+    setState((prevState) => ({
+      ...prevState,
+      result: r.result,
+      credit : r.credit
+    }));
+
+  }
+
   return (
     <Container maxWidth="sm">
       <Box sx={{ my: 4 }}>
 
-        <Operation opName="Addition" opSymbol="+" opActionName="Add"></Operation>
-        <Operation opName="Subtraction" opSymbol="-" opActionName="Substract"></Operation>
-        <Operation opName="Multiplication" opSymbol="+*" opActionName="Multiply"></Operation>
-        <Operation opName="Division" opSymbol="/" opActionName="Divide"></Operation>
-        <Operation opName="Square root" opSymbol="sqr" opActionName="Operate"></Operation>
-        <Operation opName="Random String" opSymbol="" opActionName="Execute"></Operation>
+        <Operation opName="Addition" opSymbol="+" opActionName="Add" onResult={onResult} parentState={state}></Operation>
+        <Operation opName="Subtraction" opSymbol="-" opActionName="Substract" onResult={onResult} parentState={state}></Operation>
+        <Operation opName="Multiplication" opSymbol="+*" opActionName="Multiply" onResult={onResult} parentState={state}></Operation>
+        <Operation opName="Division" opSymbol="/" opActionName="Divide" onResult={onResult} parentState={state}></Operation>
+        <Operation opName="Square root" opSymbol="sqr" opActionName="Operate" onResult={onResult} parentState={state}></Operation>
+        <Operation opName="Random String" opSymbol="" opActionName="Execute" onResult={onResult} parentState={state}></Operation>
 
 
 
 
-        The Calculator
+        The Calculator result {state.result}
+        The credit {state.credit}
         <Button variant="outlined" onClick={() => {
               handleSignOut();
             }}>Sign Out
