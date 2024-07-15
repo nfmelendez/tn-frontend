@@ -6,25 +6,22 @@ import ProTip from '../components/ProTip';
 import Link from '../components/Link';
 import Copyright from '../components/Copyright';
 import Login from '../components/Login';
-import { isLoggedIn, logout } from '../services/authService';
+import { isLoggedIn, logout } from '../controller/authService';
 import Button from '@mui/material/Button';
-import Calculator from './calculator';
+import AppTabs from './app';
 import { Router } from "@reach/router"
 import PrivateRoute from '../components/PrivateRoute';
-
+import Layout from '../components/layout';
 
 
 export default function Index() {
   return (
-    <Container maxWidth="sm">
-      <Box sx={{ my: 4 }}>
-        Hola
+    <Layout>
       <Router>
-        <PrivateRoute path="/calculator" component={Calculator} />
+        <PrivateRoute path="/app" component={AppTabs} />
         <Login path="/" />
       </Router>
-      </Box>
-    </Container>
+    </Layout>
   );
 }
 

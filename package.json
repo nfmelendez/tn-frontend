@@ -11,6 +11,8 @@
     "@emotion/server": "latest",
     "@emotion/styled": "latest",
     "@mui/material": "latest",
+    "@mui/x-data-grid": "^7.8.0",
+    "@mui/x-data-grid-generator": "^7.8.0",
     "axios": "^1.7.2",
     "gatsby": "latest",
     "gatsby-plugin-react-helmet": "latest",
