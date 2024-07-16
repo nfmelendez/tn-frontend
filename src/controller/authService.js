@@ -31,6 +31,7 @@ export const handleLogin = async ({ username, password }) => {
     setUser({
       username: username,
       session: response.data.session,
+      credit: response.data.credit
     })
     navigate('/app');
   } catch (err) {

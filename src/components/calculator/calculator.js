@@ -6,7 +6,7 @@ import ProTip from '../ProTip';
 import Link from '../Link';
 import Copyright from '../Copyright';
 import Login from '../Login';
-import { logout } from '../../controller/authService';
+import { getUser, logout } from '../../controller/authService';
 import Button from '@mui/material/Button';
 import { navigate } from 'gatsby';
 import Operation from './Operation';
@@ -16,7 +16,9 @@ import Divider from '@mui/material/Divider';
 
 export default function Calculator() {
 
-  const [state, setState] = useState({ result: "0", credit: 0 });
+  const user = getUser();
+
+  const [state, setState] = useState({ result: "0", credit: user.credit });
 
   const [error, setError] = useState("");
 
