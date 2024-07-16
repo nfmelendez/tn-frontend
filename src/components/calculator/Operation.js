@@ -9,6 +9,8 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+
 
 
 
@@ -35,7 +37,6 @@ export default function Operation({ opName, opSymbol, opActionName, onResult, pa
     e.preventDefault();
     const result = await operation(opActionName, state.left, state.right);
     onResult(result);
-
   }
 
   function handleUpdateRight(e) {
@@ -71,29 +72,37 @@ export default function Operation({ opName, opSymbol, opActionName, onResult, pa
         >
                 <Grid container  spacing={2}>
 
-          <Grid xs={4}>
+          <Grid xs={1}>
+          {opName}
+          </Grid>
+
+          <Grid xs={3}>
+
           <label>
             
-              {opName}
-
-
               {opActionName !== "random_string" &&
-                <TextField id="outlined-basic" label="Outlined" variant="outlined" name="left" value={state.left} onChange={handleUpdateLeft} />
+                <TextField id="outlined-basic"  name="left" value={state.left} onChange={handleUpdateLeft} />
               }
           </label>
           </Grid>
+          <Grid xs={1}>
+          <h3>{opSymbol}</h3>
+
+          </Grid>
+          <Grid xs={3}>
 
           {(opActionName !== "square_root" && opActionName !== "random_string") &&
-            <Grid xs={4}>
+
             <label>
-                {opSymbol}
-                <TextField id="outlined-basic" label="Outlined" variant="outlined" name="right" value={state.right} onChange={handleUpdateRight} />
+
+                <TextField id="outlined-basic"  name="right" value={state.right} onChange={handleUpdateRight} />
             </label>
-            </Grid>
 
           }
-          <Grid xs={4}>
-            <input type="submit" value={opActionName} />
+          </Grid>
+
+          <Grid xs={2}>
+            <Button variant="outlined" type="submit" > {opActionName}</Button>
           </Grid>
           </Grid>
 
@@ -101,18 +110,3 @@ export default function Operation({ opName, opSymbol, opActionName, onResult, pa
   );
 }
 
-
-{/* <Grid container spacing={2}>
-  <Grid xs={8}>
-    <Item>xs=8</Item>
-  </Grid>
-  <Grid xs={4}>
-    <Item>xs=4</Item>
-  </Grid>
-  <Grid xs={4}>
-    <Item>xs=4</Item>
-  </Grid>
-  <Grid xs={8}>
-    <Item>xs=8</Item>
-  </Grid>
-</Grid> */}

@@ -30,9 +30,12 @@ export async function operation(operation, left, right) {
             'App-Username': user.username,
             'App-Session': user.session, 
         });
-        return { result: toStrWithoutPrecision(response.data.result), credit: response.data.credit };
+        let result = response.data.result;
+        if ("random_string" !== operation) {
+            result = toStrWithoutPrecision(response.data.result);
+        }
+        return { result: result, credit: response.data.credit, success: true };
     } catch (err) {
-        // Handle error
-        console.error(err);
+        return err.response.data.error;
     }
 }
