@@ -29,7 +29,7 @@ export default function Calculator() {
 
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="xl">
       <Box sx={{ my: 4 }}>
 
         <Operation opName="Addition" opSymbol="+" opActionName="add" onResult={onResult} parentState={state}></Operation>
