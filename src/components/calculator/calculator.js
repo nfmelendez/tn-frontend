@@ -14,7 +14,7 @@ import Operation from './Operation';
 
 export default function Calculator() {
 
-  const [state, setState] = useState({result : 0, credit: 0});
+  const [state, setState] = useState({result : "0", credit: 0});
 
 
 
@@ -32,12 +32,12 @@ export default function Calculator() {
     <Container maxWidth="sm">
       <Box sx={{ my: 4 }}>
 
-        <Operation opName="Addition" opSymbol="+" opActionName="Add" onResult={onResult} parentState={state}></Operation>
-            <Operation opName="Subtraction" opSymbol="-" opActionName="Substract" onResult={onResult} parentState={state}></Operation>
-            <Operation opName="Multiplication" opSymbol="+*" opActionName="Multiply" onResult={onResult} parentState={state}></Operation>
-            <Operation opName="Division" opSymbol="/" opActionName="Divide" onResult={onResult} parentState={state}></Operation>
-            <Operation opName="Square root" opSymbol="sqr" opActionName="Operate" onResult={onResult} parentState={state}></Operation>
-            <Operation opName="Random String" opSymbol="" opActionName="Execute" onResult={onResult} parentState={state}></Operation>
+        <Operation opName="Addition" opSymbol="+" opActionName="add" onResult={onResult} parentState={state}></Operation>
+            <Operation opName="Subtraction" opSymbol="-" opActionName="subtraction" onResult={onResult} parentState={state}></Operation>
+            <Operation opName="Multiplication" opSymbol="+*" opActionName="multiplication" onResult={onResult} parentState={state}></Operation>
+            <Operation opName="Division" opSymbol="/" opActionName="division" onResult={onResult} parentState={state}></Operation>
+            <Operation opName="Square root" opSymbol="sqr" opActionName="square_root" onResult={onResult} parentState={state}></Operation>
+            <Operation opName="Random String" opSymbol="" opActionName="random_string" onResult={onResult} parentState={state}></Operation>
             The Calculator result {state.result}
             The credit {state.credit}
 

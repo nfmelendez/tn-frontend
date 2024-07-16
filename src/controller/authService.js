@@ -3,9 +3,10 @@
 import { navigate } from "gatsby"
 
 import axios from "axios";
+import { HOST_URL } from "../config/constants";
 
 const VERSION = "v1"
-const URL = ` https://ontmzy9lwe.execute-api.us-east-1.amazonaws.com/dev/${VERSION}/`
+const URL = `${HOST_URL}/dev/${VERSION}/`
 
 
 const USER_STORAGE = "userStorage"
@@ -22,13 +23,11 @@ const setUser = user =>
   window.localStorage.setItem(USER_STORAGE, JSON.stringify(user))
 
 export const handleLogin = async ({ username, password }) => {
-  debugger;
   try {
     const response = await axios.post(URL + "user/login", {
       username: username,
       password: password,
     });
-    debugger;
     setUser({
       username: username,
       session: response.data.session,

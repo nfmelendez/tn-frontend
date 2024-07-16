@@ -30,7 +30,6 @@ export default function Login() {
           event.preventDefault()
           const err = await handleLogin(credentials);
           if(err) {
-            debugger;
             setLoginError(err);
           }
         }

@@ -12,8 +12,8 @@ import { Box, styled } from '@mui/system';
 export default function Operation({ opName, opSymbol, opActionName, onResult, parentState}) {
 
     const defaultState = {
-        left: parentState.result,
-        right: 0
+        left: "0",
+        right: "0"
     }
 
     const [state, setState] = useState(defaultState);
@@ -22,15 +22,12 @@ export default function Operation({ opName, opSymbol, opActionName, onResult, pa
 
     async function handleSubmit(e) {
         e.preventDefault();
-        debugger;
-        const result = await operation(opSymbol, parentState.result, state.right);
-
+        const result = await operation(opActionName, state.left, state.right);
         onResult(result);
     
     }
 
-    function handleUpdate(e){
-        debugger;
+    function handleUpdateRight(e){
         e.preventDefault();
         const value = e.target.value;
         //accept only numbers
@@ -42,6 +39,16 @@ export default function Operation({ opName, opSymbol, opActionName, onResult, pa
 
     }
 
+    function handleUpdateLeft(e) {
+      e.preventDefault();
+      const value = e.target.value;
+      setState(prev => (
+          {...prev,
+          left: value
+          }
+      ))
+    }
+
   return (
     <form
     method="post"
@@ -51,14 +58,17 @@ export default function Operation({ opName, opSymbol, opActionName, onResult, pa
   >
     <label>
       {opName}
-      <TextField id="outlined-basic" label="Outlined" variant="outlined"  name="left" value={parentState.result}   />
-
+      { opActionName !== "random_string"  &&
+      <TextField id="outlined-basic" label="Outlined" variant="outlined"  name="left" value={state.left}  onChange={handleUpdateLeft}  />
+      }
     </label>
+    {(opActionName !== "square_root" && opActionName !== "random_string")  &&
     <label>
       {opSymbol}
-      <TextField id="outlined-basic" label="Outlined" variant="outlined"  name="right" value={state.right}  onChange={handleUpdate} />
+      <TextField id="outlined-basic" label="Outlined" variant="outlined"  name="right" value={state.right}  onChange={handleUpdateRight} />
 
     </label>
+    }
     <input type="submit" value={opActionName} />
   </form>
   );
