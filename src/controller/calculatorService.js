@@ -1,9 +1,8 @@
 
 import axios from "axios";
 import { getUser } from "./authService";
-import { HOST_URL } from "../config/constants";
+import { HOST_URL, VERSION } from "../config/constants";
 
-const VERSION = "v1"
 const URL = `${HOST_URL}/dev/${VERSION}/`
 
 const precisionFactor = 1000000; // 6 digits

@@ -25,30 +25,3 @@ export default function Index() {
   );
 }
 
-/*
-export default function Index() {
-  return (
-    <Container maxWidth="sm">
-      <Box sx={{ my: 4 }}>
-        { !isLoggedIn() ? (
-        <Login/>
-        ) : (<>
-          <Button variant="outlined" onClick={() => {
-              logout();
-            }}>Sign Out
-          </Button>
-        <Typography variant="h4" component="h1" sx={{ mb: 2 }}>
-          Material UI Gatsby example
-        </Typography>
-        <Link to="/about" color="secondary">
-          Go to the about page
-        </Link>
-        <ProTip />
-        <Copyright />
-        </>
-        )}
-      </Box>
-    </Container>
-  );
-}
-*/

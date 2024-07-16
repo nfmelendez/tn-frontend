@@ -17,12 +17,10 @@ const Item = styled(Paper)(({ theme }) => ({
 const Layout = ({ children }) => (
     <>
         <Grid container spacing={2}>
-            <Grid item xs={8}>
-                <Item>Title</Item>
+            <Grid item xs={12}>
+                <Item><h1>True North</h1></Item>
             </Grid>
-            <Grid item xs={4}>
-                <Item> [logout]</Item>
-            </Grid>
+
             <Grid item xs={12}>
                 <Item>    {children}
                 </Item>

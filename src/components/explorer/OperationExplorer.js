@@ -1,53 +1,86 @@
 import React, { useState, useEffect } from 'react';
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import { useDemoData } from '@mui/x-data-grid-generator';
+import { DataGrid, GridToolbar, GridActionsCellItem } from '@mui/x-data-grid';
 import axios from 'axios';
-const VISIBLE_FIELDS = ['name', 'rating', 'country', 'dateCreated', 'isAdmin'];
+import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 
-const columns = [
-  { field: 'id', headerName: 'ID', width: 200 },
-  { field: 'operation_id', headerName: 'Operation', width: 150 },
-  { field: 'amount', headerName: 'Amount', width: 150 },
-  { field: 'date', headerName: 'Date', width: 150 },
-  { field: 'operation_response', headerName: 'Operation Res', width: 150 },
-  { field: 'user_balance', headerName: 'Balance', width: 150 },
-  { field: 'username', headerName: 'User', width: 150 },
+import { HOST_URL, VERSION } from "../../config/constants"
 
-];
+const URL = `${HOST_URL}/dev/${VERSION}`
+
 
 
 export default function OperationExplorer() {
 
   const [rows, setRows] = useState([]);
-  const [pageSize, setPageSize] = useState(5);
-  const [page, setPage] = useState(0);
-  const [rowCount, setRowCount] = useState(0);
   const [loading, setLoading] = useState(false);
   const [lastKey, setLastKey] = useState(null);
 
-  const [hasNextPage, setHasNextPage] = useState(false);
+  const [hasNextPage, setHasNextPage] = useState(true);
+
+
+  const [paginationModel, setPaginationModel] = React.useState({
+    page: 0,
+    pageSize: 5,
+  });
+
+  async function handleDeleteClick(id) {
+    
+    setRows(rows.filter((row) => row.id !== id));
+
+  }
+  
+  const columns = [
+    { field: 'id', headerName: 'ID', width: 200 },
+    { field: 'operation_id', headerName: 'Operation', width: 150 },
+    { field: 'amount', headerName: 'Amount', width: 150 },
+    { field: 'date', headerName: 'Date', width: 150 },
+    { field: 'operation_response', headerName: 'Operation Res', width: 150 },
+    { field: 'user_balance', headerName: 'Balance', width: 150 },
+    { field: 'username', headerName: 'User', width: 150 },
+    {
+      field: 'actions',
+      type: 'actions',
+      headerName: 'Actions',
+      width: 100,
+      cellClassName: 'actions',
+      getActions: ({ id }) => {
+
+        function f () {
+          handleDeleteClick(id)
+        }
+  
+        return [
+          <GridActionsCellItem
+            icon={<DeleteIcon />}
+            label="Delete"
+            onClick={f}
+            color="inherit"
+          />,
+        ];
+      },
+    },
+  ];
+  
 
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await axios.get('https://avsvppatj3.execute-api.us-east-1.amazonaws.com/dev/v1/records', {
+        const response = await axios.get(`${URL}/records`, {
           params: {
-            limit: pageSize,
+            limit: paginationModel.pageSize,
             lastKey: lastKey ? JSON.stringify(lastKey) : null
           }
         });
         debugger;
         setRows(response.data.Items);
-        setRowCount(response.data.Items.length);
         setLastKey(response.data.LastEvaluatedKey || null);
         if(response.data.LastEvaluatedKey) {
-          setRowCount(-1);
+          setHasNextPage(true);
         } else {
-          setRowCount(0);
+          setHasNextPage(false);
         }
-        setHasNextPage(true);
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -56,11 +89,12 @@ export default function OperationExplorer() {
     };
 
     fetchData();
-  }, [page, pageSize]);
+  }, [paginationModel]);
 
 
-  const paginationMetaRef = React.useRef();
 
+    // Memoize to avoid flickering when the `hasNextPage` is `undefined` during refetch
+    const paginationMetaRef = React.useRef({});
     // Memoize to avoid flickering when the `hasNextPage` is `undefined` during refetch
     const paginationMeta = React.useMemo(() => {
       debugger;
@@ -72,47 +106,25 @@ export default function OperationExplorer() {
       }
       return paginationMetaRef.current;
     }, [hasNextPage]);
+    
 
 
-  // const { data } = useDemoData({
-  //   dataSet: 'Employee',
-  //   visibleFields: VISIBLE_FIELDS,
-  //   rowLength: 100,
-  // });
-
-  // return (
-  //   <div style={{ height: 400, width: '100%' }}>
-  //     <DataGrid {...data} slots={{ toolbar: GridToolbar }} />
-  //   </div>
-  // );
   return (
     <div style={{ height: 500, width: '100%' }}>
       <DataGrid
         rows={rows}
         columns={columns}
-        pagination
-        pageSize={pageSize}
-        rowsPerPageOptions={[5, 10, 20]}  
-        rowCount={rowCount}
+        pageSize={paginationModel.pageSize}
+        rowCount={-1}
         paginationMode="server"
-        onPageChange={(params) => {
-          debugger;
-          setPage(params.page)
-        }}
-        onPageSizeChange={(params) => {
-          debugger;
-          setPageSize(params.pageSize);
-          setPage(0); // Reset to first page when page size changes
-        }}
+        pageSizeOptions={[5, 10, 25, 50]}
+        paginationModel={paginationModel}
         onPaginationModelChange={(params) => {
           debugger;
-          setPageSize(params.pageSize);
+          setPaginationModel(params);
           if(params.page == 0) {
-            setPage(0); // Reset to first page when page size changes
             setLastKey(null)// reset cursor
-          } else {
-            setPage(params.page);
-          }
+          } 
         }}
         loading={loading}
         paginationMeta={paginationMeta}

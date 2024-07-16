@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import Alert from '@mui/material/Alert';
 import CheckIcon from '@mui/icons-material/Check';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 
 import { handleLogin } from "../controller/authService";
+import { Box } from "@mui/material";
 
 const defaultCredentialsState = {
   username: `john@gmail.com`,
@@ -43,27 +46,31 @@ export default function Login() {
         </Alert>
         }
 
-        <h1>Log in</h1>
+        <h2>Log in</h2>
         <form
           method="post"
           onSubmit={event => {
             handleSubmit(event)
           }}
-        >
-          <label>
-            Username
-            <input type="text" name="username" value={credentials.username} onChange={handleUpdate} />
-          </label>
-          <label>
-            Password
-            <input
+        >        <Box
+        sx={{
+          '& > :not(style)': { m: 1, width: '25ch' },
+        }}
+        noValidate
+        autoComplete="off"
+        textAlign='center'
+      >        
+            <TextField id="outlined-basic" label="Username" variant="outlined" type="text" name="username" value={credentials.username} onChange={handleUpdate} />
+             <TextField id="outlined-basic" label="Password" variant="outlined"
               type="password"
               name="password"
               value={credentials.password}
               onChange={handleUpdate}
             />
-          </label>
-          <input type="submit" value="Log In" />
+
+          <Button variant="contained" type="submit" >Log in</Button>
+
+          </Box>
         </form>
       </>
     )
