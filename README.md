@@ -1,32 +1,38 @@
-# Material UI - Gatsby example
+# True North - Front End
+
+Frontend for a calculator with 6 digits precision and a random string generator. It uses integers in the transport layer nd the backend, and only shows the "human readable" numbers at the moment of printing to the screen. Each operation has a cost and a user has credits that will use until it won't have none of them.
+
+
+## Technologies
+*Front End:*
+- React
+- Javascript
+- MUI Material Design
+- Gatsby
+- AWS S3 for web serving
+
+*Back End:*
+
+- AWS lambda with Python 3.12
+- AWS Dynamodb
+- Serverless framework
+- Flask
+
 
 ## How to use
 
-Download the example [or clone the repo](https://github.com/mui/material-ui):
-
-<!-- #default-branch-switch -->
-
-```bash
-curl https://codeload.github.com/mui/material-ui/tar.gz/master | tar -xz --strip=2  material-ui-master/examples/material-ui-gatsby
-cd material-ui-gatsby
-```
-
-Install it and run:
+### Install it and run for development:
 
 ```bash
 npm install
 npm run develop
 ```
 
-## The idea behind the example
+### For Production 
 
-The project uses [Gatsby](https://github.com/gatsbyjs/gatsby), which is a static site generator for React.
-It includes `@mui/material` and its peer dependencies, including [Emotion](https://emotion.sh/docs/introduction), the default style engine in Material UI v5.
-If you prefer, you can [use styled-components instead](https://mui.com/material-ui/integrations/interoperability/#styled-components).
+```bash
+npm install
+npm run build
+```
+it will generate the statics files to upload to a web server or similar
 
-## What's next?
-
-<!-- #default-branch-switch -->
-
-You now have a working example project.
-You can head back to the documentation and continue by browsing the [templates](https://mui.com/material-ui/getting-started/templates/) section.
