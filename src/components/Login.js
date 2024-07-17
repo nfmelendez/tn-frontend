@@ -47,12 +47,7 @@ export default function Login() {
         }
 
         <h2>Log in</h2>
-        <form
-          method="post"
-          onSubmit={event => {
-            handleSubmit(event)
-          }}
-        >        <Box
+     <Box
         sx={{
           '& > :not(style)': { m: 1, width: '25ch' },
         }}
@@ -68,10 +63,12 @@ export default function Login() {
               onChange={handleUpdate}
             />
 
-          <Button variant="contained" type="submit" >Log in</Button>
+          <Button variant="contained" onClick={event => {
+            event.preventDefault();
+            handleSubmit(event)
+          }} >Log in</Button>
 
           </Box>
-        </form>
       </>
     )
   }
